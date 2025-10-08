@@ -88,8 +88,10 @@ void CGLRenderer::DrawScene(CDC *pDC)
 	wglMakeCurrent(pDC->m_hDC, m_hrc);
 	//---------------------------------
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(10, 10, 10, 0, 0, 0, 0, 1, 0);
+	/*gluLookAt(10, 10, 10, 0, 0, 0, 0, 1, 0);*/
+	gluLookAt(0, 49, 5, 0, 0, 0, 0, 1, 0);
 	UpdateCamera();
 	// …
 	glDisable(GL_LIGHTING);
@@ -112,10 +114,11 @@ void CGLRenderer::DrawScene(CDC *pDC)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 
-	glTranslatef(0, 5, 0);
+	//glTranslatef(0, 5, 0);
 	//DrawSphere(5, 20, 20);
-	DrawSphFlower(5, 10, 20, 1, 100, 0, 0, 150, 0, 50);
-	glTranslatef(0, -5, 0);
+	//DrawSphFlower(5, 10, 20, 1, 100, 0, 0, 150, 0, 50);
+	DrawFlower();
+	//glTranslatef(0, -5, 0);
 
 	DrawAxes();
 
@@ -152,9 +155,10 @@ void CGLRenderer::DestroyScene(CDC *pDC)
 
 void CGLRenderer::UpdateCamera()
 {	
+	glTranslatef(0, -distanceZ, 0);
 	glRotatef(angX, 1.0, 0, 0);
-	glRotatef(angY, 0, 1.0, 0);
-	glTranslatef(0, 0, -distanceZ);
+	glRotatef(-angY, 0, 1.0, 0);
+	
 }
 
 void CGLRenderer::DrawAxes()
@@ -368,4 +372,19 @@ void CGLRenderer::DrawSphFlower(float R, int n, int m, float factor, unsigned ch
 
 void CGLRenderer::DrawFlower()
 {
+	glPushMatrix();
+	
+	//3 sfera, spoljasnja - r=2, f=1, 0,192,0  i 0,255,0
+	//srednja r- 0.75*r, f=0.5, 0,0,255 i 255,0,0
+	//unutrasnaj r-0.5*r, f= 0.25, 192,192,0 i 192,192,192
+	//n=36, m = 18
+
+
+	DrawSphFlower(2, 36, 18, 1, 0, 192, 0, 0, 255, 0);
+	DrawSphFlower(0.75*2, 36, 18, 0.5, 0, 0, 255, 255, 0, 0);
+	DrawSphFlower(0.5*2, 36, 18, 0.25, 192, 192, 0, 192, 192, 192);
+
+
+	glPopMatrix();
+
 }

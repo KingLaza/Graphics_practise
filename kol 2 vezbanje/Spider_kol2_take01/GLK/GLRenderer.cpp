@@ -513,6 +513,6 @@ void CGLRenderer::UpdateCamera()
 	/*double toDeg = 57.29577951308;*/
 	double toDeg = 1;
 	glTranslatef(0, 0, -m_CamDist);
-	glRotatef(m_CamAlpha * toDeg, 1, 0, 0);
-	glRotatef(-m_CamBeta * toDeg, 0, 1, 0);
+	glRotatef(m_CamAlpha, 1, 0, 0);
+	glRotatef(-m_CamBeta, 0, 1, 0);
 }
